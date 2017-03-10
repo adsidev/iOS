@@ -1,0 +1,6 @@
+framework module Pods_LimitlessTests {
+  umbrella header "Pods-LimitlessTests-umbrella.h"
+
+  export *
+  module * { export * }
+}
