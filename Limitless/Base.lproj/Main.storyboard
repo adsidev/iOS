@@ -338,7 +338,7 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" restorationIdentifier="CategoryCell" reuseIdentifier="CategoryCell" id="CSN-Lb-PpP" customClass="dashBoardCollectionViewCell" customModule="Limitless" customModuleProvider="target">
-                                        <rect key="frame" x="-12.5" y="5" width="345" height="126"/>
+                                        <rect key="frame" x="-13" y="5" width="345" height="126"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="345" height="126"/>
@@ -755,6 +755,17 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="naf-dT-dX6">
+                                <rect key="frame" x="20" y="446" width="40" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="40" id="Q7J-5t-RDa"/>
+                                    <constraint firstAttribute="height" constant="40" id="d1y-aL-Ro7"/>
+                                </constraints>
+                                <state key="normal" image="Puase"/>
+                                <connections>
+                                    <action selector="puaseOrPlayWithSender:" destination="TJ4-0R-zqy" eventType="touchUpInside" id="TKs-NY-uj0"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -762,6 +773,7 @@
                             <constraint firstItem="Rap-G8-3Rv" firstAttribute="top" secondItem="22F-um-SE9" secondAttribute="bottom" constant="24" id="30N-W3-Aqx"/>
                             <constraint firstItem="62d-cs-U9e" firstAttribute="top" secondItem="pHu-5H-P4J" secondAttribute="bottom" constant="10" id="3bM-7u-6g3"/>
                             <constraint firstItem="s5f-RO-YB3" firstAttribute="leading" secondItem="5a9-31-mse" secondAttribute="leading" constant="20" id="4Gc-4T-ObO"/>
+                            <constraint firstItem="naf-dT-dX6" firstAttribute="top" secondItem="6g6-X2-w7s" secondAttribute="bottom" constant="8" id="51I-kx-Eez"/>
                             <constraint firstItem="62d-cs-U9e" firstAttribute="leading" secondItem="5a9-31-mse" secondAttribute="leading" constant="20" id="9zQ-J0-24C"/>
                             <constraint firstItem="U9l-lz-zKV" firstAttribute="leading" secondItem="5a9-31-mse" secondAttribute="leading" constant="20" id="Ati-1d-62q"/>
                             <constraint firstItem="kNN-RO-4Ax" firstAttribute="centerY" secondItem="xYR-AI-g59" secondAttribute="centerY" id="CSw-nt-oev"/>
@@ -777,6 +789,7 @@
                             <constraint firstItem="4Yk-rR-AwG" firstAttribute="top" secondItem="U9l-lz-zKV" secondAttribute="top" id="Sss-nn-KbS"/>
                             <constraint firstAttribute="trailing" secondItem="hqV-0Z-Dmk" secondAttribute="trailing" constant="10" id="TbX-F6-wZP"/>
                             <constraint firstItem="22F-um-SE9" firstAttribute="height" secondItem="s5f-RO-YB3" secondAttribute="height" id="Tpt-KL-zLB"/>
+                            <constraint firstItem="naf-dT-dX6" firstAttribute="leading" secondItem="5a9-31-mse" secondAttribute="leading" constant="20" id="VYM-cq-rk6"/>
                             <constraint firstItem="xYR-AI-g59" firstAttribute="top" secondItem="5a9-31-mse" secondAttribute="top" constant="10" id="Vfp-II-HLd"/>
                             <constraint firstItem="U9l-lz-zKV" firstAttribute="centerY" secondItem="hqV-0Z-Dmk" secondAttribute="centerY" id="Vi7-SX-XWe"/>
                             <constraint firstItem="s5f-RO-YB3" firstAttribute="top" secondItem="tlc-uu-hsM" secondAttribute="bottom" constant="5" id="XH4-Oi-CZ4"/>
@@ -803,6 +816,7 @@
                         <outlet property="answerButton1" destination="pHu-5H-P4J" id="cKz-ld-F0X"/>
                         <outlet property="answerButton2" destination="62d-cs-U9e" id="MIS-3m-bCV"/>
                         <outlet property="answerButton3" destination="6g6-X2-w7s" id="uZh-iQ-zcV"/>
+                        <outlet property="buttonPlayOrPause" destination="naf-dT-dX6" id="dvi-QT-fOK"/>
                         <outlet property="constraintImageTop" destination="lW8-de-c0B" id="Lm8-Ia-aRf"/>
                         <outlet property="constraintImageWidth" destination="l6P-Sh-Dmr" id="Uuv-Df-yvO"/>
                         <outlet property="constraintTextfieldHeight" destination="IZI-Fz-D5r" id="eQ6-PX-Vce"/>
@@ -849,6 +863,7 @@
     </scenes>
     <resources>
         <image name="Icn_All" width="50" height="57"/>
+        <image name="Puase" width="512" height="512"/>
         <image name="Question.png" width="473" height="373"/>
         <image name="iCON_fbLogin" width="31" height="31"/>
         <image name="icn_lock" width="33" height="43"/>

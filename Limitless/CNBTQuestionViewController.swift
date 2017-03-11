@@ -35,6 +35,7 @@ class CNBTQuestionViewController: UIViewController {
     @IBOutlet weak var answerButton1: UIButton!
     @IBOutlet weak var answerButton2: UIButton!
     @IBOutlet weak var answerButton3: UIButton!
+    @IBOutlet weak var buttonPlayOrPause: UIButton!
     
     @IBOutlet weak var constraintTextfieldTop: NSLayoutConstraint!
     @IBOutlet weak var constraintTextfieldHeight: NSLayoutConstraint!
@@ -67,6 +68,8 @@ class CNBTQuestionViewController: UIViewController {
     var rightAnswerCount: Int = 0
     var wrongAnswerCount: Int = 0
 
+    var timer: Timer?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         initialSetup()
@@ -81,6 +84,9 @@ class CNBTQuestionViewController: UIViewController {
         self.textFieldStreak.text = "\(self.currentStreak)"
         self.textFieldScore.text = "\(self.currentScore)"
         self.titleName.text = "\(selectedmodel.SubjectName!)"
+        buttonPlayOrPause.setImage(UIImage(named: "Play"), for: .normal)
+        buttonPlayOrPause.setImage(UIImage(named: "Pause"), for: .selected)
+        buttonPlayOrPause.isSelected = true
     }
     func addShadows() {
         viewImageAndQuestion.addShadow()
@@ -94,21 +100,39 @@ class CNBTQuestionViewController: UIViewController {
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        Timer.scheduledTimer(timeInterval: 1,
-                             target: self,
-                             selector: #selector(updateLabelTimer),
-                             userInfo: nil,
-                             repeats: true)
+//        Timer.scheduledTimer(timeInterval: 1,
+//                             target: self,
+//                             selector: #selector(updateLabelTimer),
+//                             userInfo: nil,
+//                             repeats: true)
+        
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateLabelTimer), userInfo: nil, repeats: true)
         
     }
-   
+    override func viewWillAppear(_ animated: Bool) {
+        NotificationCenter.default.addObserver(self, selector: #selector(appMovedToBackground), name: Notification.Name.UIApplicationWillResignActive, object: nil)
+
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        NotificationCenter.default.removeObserver(self, name: Notification.Name.UIApplicationWillResignActive, object: nil)
+    }
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         NotificationCenter.default.removeObserver(self)
+        imageTimer?.invalidate()
+        timer?.invalidate()
+    }
+    
+    func appMovedToBackground(notification: Notification) {
+        timer?.invalidate()
+        imageTimer?.invalidate()
+        buttonPlayOrPause.isSelected = false
     }
     func updateLabelTimer() {
         timerCount = timerCount + 1
         labelTimer.text = "\(timerCount)"
+
     }
     
     func getImages() -> [UIImage] {
@@ -356,7 +380,23 @@ class CNBTQuestionViewController: UIViewController {
         button.setTitleColor(UIColor.white, for: .highlighted)
     }
     
-    
+    @IBAction func puaseOrPlay(sender: UIButton) {
+        if sender.isSelected {
+            timer?.invalidate()
+            imageTimer?.invalidate()
+        } else {
+            timer?.invalidate()
+            timer = nil
+            timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateLabelTimer), userInfo: nil, repeats: true)
+            imageTimer?.invalidate()
+            imageTimer = nil
+            imageTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { [weak self](timer) in
+                self?.startQuestionTimeImages()
+            })
+
+        }
+        sender.isSelected = !sender.isSelected
+    }
     
     /// <#Description#>
     ///
@@ -413,7 +453,6 @@ class CNBTQuestionViewController: UIViewController {
         }
         return 0
     }
-    
     @IBAction func buttonActionSender(sender: UIButton) {
         var correctChoice = 200
         for (index, answer) in self.choices!.enumerated(){
