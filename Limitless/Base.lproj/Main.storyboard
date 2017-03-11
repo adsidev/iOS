@@ -78,7 +78,7 @@
                                         <rect key="frame" x="8" y="5" width="304" height="30"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" name="PierSans-Regular" family="Pier Sans" pointSize="17"/>
-                                        <textInputTraits key="textInputTraits" spellCheckingType="no"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
                                         <connections>
                                             <outlet property="delegate" destination="BYZ-38-t0r" id="5G0-uu-gbU"/>
                                         </connections>
@@ -761,7 +761,7 @@
                                     <constraint firstAttribute="width" constant="40" id="Q7J-5t-RDa"/>
                                     <constraint firstAttribute="height" constant="40" id="d1y-aL-Ro7"/>
                                 </constraints>
-                                <state key="normal" image="Puase"/>
+                                <state key="normal" image="Pause"/>
                                 <connections>
                                     <action selector="puaseOrPlayWithSender:" destination="TJ4-0R-zqy" eventType="touchUpInside" id="TKs-NY-uj0"/>
                                 </connections>
@@ -863,7 +863,7 @@
     </scenes>
     <resources>
         <image name="Icn_All" width="50" height="57"/>
-        <image name="Puase" width="512" height="512"/>
+        <image name="Pause" width="512" height="512"/>
         <image name="Question.png" width="473" height="373"/>
         <image name="iCON_fbLogin" width="31" height="31"/>
         <image name="icn_lock" width="33" height="43"/>

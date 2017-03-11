@@ -67,8 +67,6 @@ class CNBTQuestionViewController: UIViewController {
     //answer 
     var rightAnswerCount: Int = 0
     var wrongAnswerCount: Int = 0
-
-    var timer: Timer?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -100,13 +98,6 @@ class CNBTQuestionViewController: UIViewController {
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-//        Timer.scheduledTimer(timeInterval: 1,
-//                             target: self,
-//                             selector: #selector(updateLabelTimer),
-//                             userInfo: nil,
-//                             repeats: true)
-        
-        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateLabelTimer), userInfo: nil, repeats: true)
         
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -121,11 +112,9 @@ class CNBTQuestionViewController: UIViewController {
         super.viewDidDisappear(animated)
         NotificationCenter.default.removeObserver(self)
         imageTimer?.invalidate()
-        timer?.invalidate()
     }
     
     func appMovedToBackground(notification: Notification) {
-        timer?.invalidate()
         imageTimer?.invalidate()
         buttonPlayOrPause.isSelected = false
     }
@@ -188,6 +177,10 @@ class CNBTQuestionViewController: UIViewController {
         
         // Set time
         self.startTime =  Date().timeIntervalSince1970
+        
+        timerCount = timerCount + 1
+        labelTimer.text = "\(timerCount)"
+
     }
     
     func parseQuestion(_ data: Data) {
@@ -382,12 +375,8 @@ class CNBTQuestionViewController: UIViewController {
     
     @IBAction func puaseOrPlay(sender: UIButton) {
         if sender.isSelected {
-            timer?.invalidate()
             imageTimer?.invalidate()
         } else {
-            timer?.invalidate()
-            timer = nil
-            timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateLabelTimer), userInfo: nil, repeats: true)
             imageTimer?.invalidate()
             imageTimer = nil
             imageTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { [weak self](timer) in
