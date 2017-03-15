@@ -13,3 +13,7 @@ enum LMQuestionButtons: Int {
     case Answer2
     case Answer3
 }
+
+struct CellIdentifiers {
+    static let LMSettingsTableviewCell = "LMSettingsTableviewCell"
+}

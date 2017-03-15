@@ -9,27 +9,40 @@
 import UIKit
 
 class CNBTSettingViewController: UIViewController {
-
+    @IBOutlet weak var tableViewMain: UITableView!
+    var arrayDataSource: [[String]]!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        initialSetup()
     }
-
+    func initialSetup() {
+        arrayDataSource = [["My Profile", "User"], ["LogOut", "User"]]
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+}
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+extension CNBTSettingViewController: UITableViewDelegate, UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
     }
-    */
-
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return arrayDataSource.count
+    }
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        return getCell(indexPath: indexPath)
+    }
+    func getCell(indexPath: IndexPath) -> LMSettingsTableviewCell {
+        var cell = tableViewMain.dequeueReusableCell(withIdentifier: CellIdentifiers.LMSettingsTableviewCell) as? LMSettingsTableviewCell
+        if cell == nil {
+            cell = LMSettingsTableviewCell(style: .default, reuseIdentifier: CellIdentifiers.LMSettingsTableviewCell)
+        }
+        let arrayModel = arrayDataSource[indexPath.row]
+        cell?.labelCustom.text = arrayModel[0]
+        cell?.imageViewMain.image = UIImage(named: arrayModel[1])
+        return cell!
+    }
 }

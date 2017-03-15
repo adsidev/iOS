@@ -47,14 +47,12 @@ class CNBTTabBarViewController: UITabBarController , UITabBarControllerDelegate 
         graphNav.tabBarItem = graphTabBarItem
         
         // Graph setting
-        let settingTab = appdel.tabStoryBoard.instantiateViewController(withIdentifier: "settingView") as! CNBTSettingViewController
+        let settingTab = appdel.mainStoryBoard.instantiateViewController(withIdentifier: "CNBTSettingViewController") as! CNBTSettingViewController
         let settingNav = UINavigationController.init(rootViewController: settingTab)
         settingNav.navigationBar.isHidden = true
         let settingTabBarItem = UITabBarItem(title: "", image: UIImage(named: "icn_setting"), selectedImage: UIImage(named: "icn_setting"))
         settingNav.tabBarItem = settingTabBarItem
-        
         self.viewControllers = [homenav,librarayNav,soundNav,graphNav,settingNav]
-        
     }
 
     override func viewDidLoad() {

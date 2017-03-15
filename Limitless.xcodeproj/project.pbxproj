@@ -69,6 +69,7 @@
 		4E5CB1F91E62E51C00F6A0BF /* LMCustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5CB1F81E62E51C00F6A0BF /* LMCustomView.swift */; };
 		4E5CB1FB1E62EADA00F6A0BF /* LMConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5CB1FA1E62EAD900F6A0BF /* LMConstants.swift */; };
 		4E5CB1FD1E62F0D200F6A0BF /* LMCustomLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5CB1FC1E62F0D200F6A0BF /* LMCustomLabel.swift */; };
+		4E94DC471E739CE9006CAA42 /* LMSettingsTableviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E94DC461E739CE9006CAA42 /* LMSettingsTableviewCell.swift */; };
 		4EBF96C21E59A49F00001C3F /* Questions.html in Resources */ = {isa = PBXBuildFile; fileRef = 4EBF96C11E59A49F00001C3F /* Questions.html */; };
 		4EC1877F1E58B25400BA4A24 /* String+SHA1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC1877E1E58B25400BA4A24 /* String+SHA1.swift */; };
 		6E007F319226C4B9ADB3CAFD /* Pods_Limitless.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C1B41A4195627130FCED2D65 /* Pods_Limitless.framework */; };
@@ -163,6 +164,7 @@
 		4E5CB1F81E62E51C00F6A0BF /* LMCustomView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LMCustomView.swift; sourceTree = "<group>"; };
 		4E5CB1FA1E62EAD900F6A0BF /* LMConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LMConstants.swift; sourceTree = "<group>"; };
 		4E5CB1FC1E62F0D200F6A0BF /* LMCustomLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LMCustomLabel.swift; sourceTree = "<group>"; };
+		4E94DC461E739CE9006CAA42 /* LMSettingsTableviewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LMSettingsTableviewCell.swift; sourceTree = "<group>"; };
 		4EB4CF7E1E64901500D19308 /* digital-7.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "digital-7.ttf"; sourceTree = "<group>"; };
 		4EBF96C11E59A49F00001C3F /* Questions.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Questions.html; sourceTree = "<group>"; };
 		4EC187791E58B1D600BA4A24 /* Limitless-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Limitless-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -232,6 +234,7 @@
 				4EB4CF7D1E64900400D19308 /* Font */,
 				4E5CB2091E6329D900F6A0BF /* DataModels */,
 				4E5CB1F71E62E50A00F6A0BF /* CustomViews */,
+				4E94DC451E739CC2006CAA42 /* CustomCells */,
 				4E5CB1F61E62E4DF00F6A0BF /* Extensions */,
 				4EBF96C01E59A2F400001C3F /* HTMLFile */,
 				4EC1877D1E58B22900BA4A24 /* Utilities */,
@@ -405,6 +408,14 @@
 				4E2E0C891E6351FC00AF5693 /* Answer+CoreDataProperties.swift */,
 			);
 			name = DataModels;
+			sourceTree = "<group>";
+		};
+		4E94DC451E739CC2006CAA42 /* CustomCells */ = {
+			isa = PBXGroup;
+			children = (
+				4E94DC461E739CE9006CAA42 /* LMSettingsTableviewCell.swift */,
+			);
+			path = CustomCells;
 			sourceTree = "<group>";
 		};
 		4EB4CF7D1E64900400D19308 /* Font */ = {
@@ -785,6 +796,7 @@
 				4E3AFB5B1E6C271B002D7B8E /* LMCustomTextField.swift in Sources */,
 				297B2EF51E1FED0500175BFA /* CNBTQuestionView.swift in Sources */,
 				4E5CB1841E619AE400F6A0BF /* LimitlessData.xcdatamodeld in Sources */,
+				4E94DC471E739CE9006CAA42 /* LMSettingsTableviewCell.swift in Sources */,
 				296135501E1FCD3600015A3B /* CNBTParseModel.swift in Sources */,
 				4E2E0C8D1E6351FC00AF5693 /* Question+CoreDataProperties.swift in Sources */,
 				4E2E0C8C1E6351FC00AF5693 /* Question+CoreDataClass.swift in Sources */,
