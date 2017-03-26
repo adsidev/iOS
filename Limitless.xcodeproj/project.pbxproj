@@ -72,6 +72,10 @@
 		4E94DC471E739CE9006CAA42 /* LMSettingsTableviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E94DC461E739CE9006CAA42 /* LMSettingsTableviewCell.swift */; };
 		4EBF96C21E59A49F00001C3F /* Questions.html in Resources */ = {isa = PBXBuildFile; fileRef = 4EBF96C11E59A49F00001C3F /* Questions.html */; };
 		4EC1877F1E58B25400BA4A24 /* String+SHA1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC1877E1E58B25400BA4A24 /* String+SHA1.swift */; };
+		4EEED55F1E868D2600CE2BE5 /* PopUpAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EEED55D1E868D2600CE2BE5 /* PopUpAlert.swift */; };
+		4EEED5601E868D2600CE2BE5 /* PopUpAlert.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EEED55E1E868D2600CE2BE5 /* PopUpAlert.xib */; };
+		4EEED5621E86921200CE2BE5 /* CNBTQuesionViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EEED5611E86921200CE2BE5 /* CNBTQuesionViewControllerExtension.swift */; };
+		4EEED59E1E87C38800CE2BE5 /* UITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EEED59D1E87C38800CE2BE5 /* UITextField.swift */; };
 		6E007F319226C4B9ADB3CAFD /* Pods_Limitless.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C1B41A4195627130FCED2D65 /* Pods_Limitless.framework */; };
 		6E02ABFF973F6D328D1D2008 /* Pods_LimitlessUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7ABF30902515C1F7572240BD /* Pods_LimitlessUITests.framework */; };
 /* End PBXBuildFile section */
@@ -169,6 +173,10 @@
 		4EBF96C11E59A49F00001C3F /* Questions.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Questions.html; sourceTree = "<group>"; };
 		4EC187791E58B1D600BA4A24 /* Limitless-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Limitless-Bridging-Header.h"; sourceTree = "<group>"; };
 		4EC1877E1E58B25400BA4A24 /* String+SHA1.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+SHA1.swift"; sourceTree = "<group>"; };
+		4EEED55D1E868D2600CE2BE5 /* PopUpAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopUpAlert.swift; sourceTree = "<group>"; };
+		4EEED55E1E868D2600CE2BE5 /* PopUpAlert.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PopUpAlert.xib; sourceTree = "<group>"; };
+		4EEED5611E86921200CE2BE5 /* CNBTQuesionViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CNBTQuesionViewControllerExtension.swift; sourceTree = "<group>"; };
+		4EEED59D1E87C38800CE2BE5 /* UITextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITextField.swift; sourceTree = "<group>"; };
 		6C72E729CBBDB93416E98217 /* Pods-LimitlessUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LimitlessUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LimitlessUITests/Pods-LimitlessUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		7ABF30902515C1F7572240BD /* Pods_LimitlessUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LimitlessUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1B41A4195627130FCED2D65 /* Pods_Limitless.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Limitless.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -354,6 +362,7 @@
 			children = (
 				297B2EF41E1FED0500175BFA /* CNBTQuestionView.swift */,
 				296135521E1FD7B300015A3B /* CNBTQuestionViewController.swift */,
+				4EEED5611E86921200CE2BE5 /* CNBTQuesionViewControllerExtension.swift */,
 				297B2EEC1E1FE9EB00175BFA /* CNBTQuestionModel.swift */,
 				297B2EF61E1FED1500175BFA /* CNBTQuestionView..xib */,
 			);
@@ -383,6 +392,7 @@
 			isa = PBXGroup;
 			children = (
 				4E5CB1FA1E62EAD900F6A0BF /* LMConstants.swift */,
+				4EEED59D1E87C38800CE2BE5 /* UITextField.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -390,6 +400,8 @@
 		4E5CB1F71E62E50A00F6A0BF /* CustomViews */ = {
 			isa = PBXGroup;
 			children = (
+				4EEED55D1E868D2600CE2BE5 /* PopUpAlert.swift */,
+				4EEED55E1E868D2600CE2BE5 /* PopUpAlert.xib */,
 				4E5CB1F81E62E51C00F6A0BF /* LMCustomView.swift */,
 				4E5CB1FC1E62F0D200F6A0BF /* LMCustomLabel.swift */,
 				4E3AFB5A1E6C271B002D7B8E /* LMCustomTextField.swift */,
@@ -612,6 +624,7 @@
 				4EBF96C21E59A49F00001C3F /* Questions.html in Resources */,
 				4E3AFB171E69A396002D7B8E /* Image5.png in Resources */,
 				4E3AFB191E69A396002D7B8E /* Image7.png in Resources */,
+				4EEED5601E868D2600CE2BE5 /* PopUpAlert.xib in Resources */,
 				292038671DE34F1E005B56CD /* Assets.xcassets in Resources */,
 				292038651DE34F1E005B56CD /* Main.storyboard in Resources */,
 				2961354C1E1FACB100015A3B /* CNBTTabBar.storyboard in Resources */,
@@ -781,6 +794,7 @@
 				292038621DE34F1E005B56CD /* ViewController.swift in Sources */,
 				2961354E1E1FC9FF00015A3B /* Toast.swift in Sources */,
 				2961353B1E1FAB6E00015A3B /* CNBTTabBarViewController.swift in Sources */,
+				4EEED55F1E868D2600CE2BE5 /* PopUpAlert.swift in Sources */,
 				292D45831E16E28B00187D0A /* CNBTServiceController.swift in Sources */,
 				2941EE5B1DF5CCC200F3DA40 /* dashBoardCollectionViewCell.swift in Sources */,
 				2947D2981E3104AB00D5C0B6 /* UILabel+AttributeText.swift in Sources */,
@@ -788,6 +802,7 @@
 				297B2EED1E1FE9EB00175BFA /* CNBTQuestionModel.swift in Sources */,
 				4E2E0C8A1E6351FC00AF5693 /* Score+CoreDataClass.swift in Sources */,
 				4E2E0C8E1E6351FC00AF5693 /* Answer+CoreDataClass.swift in Sources */,
+				4EEED59E1E87C38800CE2BE5 /* UITextField.swift in Sources */,
 				4E5CB1F91E62E51C00F6A0BF /* LMCustomView.swift in Sources */,
 				296135411E1FABBA00015A3B /* CNBTLibraryViewController.swift in Sources */,
 				296135471E1FABF000015A3B /* CNBTGraphViewController.swift in Sources */,
@@ -810,6 +825,7 @@
 				4E5CB1FD1E62F0D200F6A0BF /* LMCustomLabel.swift in Sources */,
 				4EC1877F1E58B25400BA4A24 /* String+SHA1.swift in Sources */,
 				296135531E1FD7B300015A3B /* CNBTQuestionViewController.swift in Sources */,
+				4EEED5621E86921200CE2BE5 /* CNBTQuesionViewControllerExtension.swift in Sources */,
 				296135441E1FABD800015A3B /* CNBTSoundViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

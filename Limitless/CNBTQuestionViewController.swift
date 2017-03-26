@@ -24,6 +24,8 @@ class CNBTQuestionViewController: UIViewController {
     @IBOutlet weak var textView: UITextView!
     @IBOutlet weak var imageViewQuestion: UIImageView!
     @IBOutlet weak var imageviewAnimation: UIImageView!
+    @IBOutlet weak var labelQuestionContent: UILabel!
+    
     
     @IBOutlet weak var titleName: UILabel!
     @IBOutlet weak var labelQuestion: UILabel!
@@ -41,6 +43,10 @@ class CNBTQuestionViewController: UIViewController {
     @IBOutlet weak var constraintTextfieldHeight: NSLayoutConstraint!
     @IBOutlet weak var constraintImageWidth: NSLayoutConstraint!
     @IBOutlet weak var constraintImageTop: NSLayoutConstraint!
+    
+    let color11 = UIColor.colorWithRGB(102, 102, 255, 0.9)
+    let color12 = UIColor.colorWithRGB(255, 255, 102, 0.9)
+    let color13 = UIColor.colorWithRGB(204, 204, 204, 0.9)
     
     
     var currentHiddenView: UIView!
@@ -64,7 +70,7 @@ class CNBTQuestionViewController: UIViewController {
     var imageTimer: Timer?
     
     
-    //answer 
+    //answer
     var rightAnswerCount: Int = 0
     var wrongAnswerCount: Int = 0
     
@@ -102,7 +108,7 @@ class CNBTQuestionViewController: UIViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
         NotificationCenter.default.addObserver(self, selector: #selector(appMovedToBackground), name: Notification.Name.UIApplicationWillResignActive, object: nil)
-
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -121,7 +127,7 @@ class CNBTQuestionViewController: UIViewController {
     func updateLabelTimer() {
         timerCount = timerCount + 1
         labelTimer.text = "\(timerCount)"
-
+        
     }
     
     func getImages() -> [UIImage] {
@@ -137,7 +143,7 @@ class CNBTQuestionViewController: UIViewController {
         let parameter  = ["PageIndex" : pageIndex , "PageSize" : pageSize  , "OrderBy" : "QuestionID"  , "SortDirection": "asc", "OrganizationID" : UserDefaults.standard.value(forKey: "OrganizationID") ?? "1",
                           "SubjectID" : selectedmodel.SubjectID ?? 7] as [String : Any]
         
-        var trimmedString = mainpUrl + "Question/GetQuestionAnswerList"
+        var trimmedString =  mainpUrl + "Answer/GetQuestionAnswerList"
         trimmedString = trimmedString.addingPercentEncoding(withAllowedCharacters:NSCharacterSet.urlQueryAllowed)!
         let urlPath = URL(string:trimmedString)
         var request = URLRequest(url: urlPath! as URL)
@@ -180,7 +186,7 @@ class CNBTQuestionViewController: UIViewController {
         
         timerCount = timerCount + 1
         labelTimer.text = "\(timerCount)"
-
+        
     }
     
     func parseQuestion(_ data: Data) {
@@ -213,6 +219,9 @@ class CNBTQuestionViewController: UIViewController {
                             question["imageUrl"] = ""
                             question["subjectID"] = "\(selectedmodel.SubjectID!)"
                             question["difficulty"] = "\(questionJson["Difficulty"]!)"
+                            question["finalQuestionContent"] = "\(questionJson["FinalQuestionContent"]!)"
+                            question["isDraggable"] = "\(questionJson["IsDraggable"]!)"
+                            question["questionImage"] = "\(questionJson["QuestionImage"] ?? "")"
                             Question.save(question)
                         }
                     }
@@ -227,6 +236,7 @@ class CNBTQuestionViewController: UIViewController {
                                 answer["explanation"] = answerJson["Explanation"]!
                                 let answerObj = Answer.getAnswerTemplate(answer)
                                 question.addToAnswers(answerObj!)
+                                self.addQuestionFromModel(questionModel: question)
                                 
                                 guard let appDelegate: AppDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
                                 appDelegate.saveContext()
@@ -290,10 +300,8 @@ class CNBTQuestionViewController: UIViewController {
                         button.setTitle(answer.answerContent, for: .normal)
                         button.setTitle(answer.answerContent, for: .highlighted)
                     }
-                    
                 }
-                
-                weakSelf.changeQuestionView(questionID: Int(question.questionTypeID!)!, content: content, image: "")
+                weakSelf.addQuestionFromModel(questionModel: question)
                 
                 weakSelf.startQuestionTimeImages()
                 
@@ -310,7 +318,7 @@ class CNBTQuestionViewController: UIViewController {
         }
         
     }
-    func changeQuestionView(questionID: Int, content: String?, image: String?) {
+    func changeQuestionView(questionID: Int, content: String?, image: String?, isDragable: String) {
         switch questionID {
         case 1, 2:
             viewTextfieldAndTextview.isHidden = false
@@ -319,8 +327,6 @@ class CNBTQuestionViewController: UIViewController {
             if questionID == 2{
                 setTextfieldConstraint()
             }
-            
-            
         case 3,4:
             viewTextfieldAndTextview.isHidden = true
             viewImageAndQuestion.isHidden = false
@@ -328,12 +334,37 @@ class CNBTQuestionViewController: UIViewController {
             if questionID == 4 {
                 setImageConstraints()
             }
-            
         default:
             break
-            
         }
     }
+    func addQuestionFromModel(questionModel: Question) {
+        
+        let questionId: Int = Int(questionModel.questionID!)!
+        switch questionId {
+        case 1, 2:
+            viewTextfieldAndTextview.isHidden = false
+            viewImageAndQuestion.isHidden = true
+            labelQuestionContent.text = questionModel.content
+            if (questionModel.isDraggable != nil) {
+                textView.text = "\(questionModel.finalQuestionContent ?? "")"
+                if Int(questionModel.isDraggable!)! == 1 {
+                    self.addGestureTobutton()
+                }
+            }
+            
+        case 3,4:
+            viewTextfieldAndTextview.isHidden = true
+            viewImageAndQuestion.isHidden = false
+            labelQuestion.text = questionModel.content
+            if questionId == 4 {
+                setImageConstraints()
+            }
+        default:
+            break
+        }
+    }
+    
     func setImageConstraints() {
         constraintImageTop.constant = 0
         constraintImageWidth.constant = viewImageAndQuestion.frame.size.height / 1.1
@@ -346,7 +377,11 @@ class CNBTQuestionViewController: UIViewController {
         self.viewTextfieldAndTextview.layoutIfNeeded()
     }
     @IBAction func backBtnClicked(_ sender: Any) {
-        let _ = self.dismiss(animated: true, completion: nil)
+        //let _ = self.dismiss(animated: true, completion: nil)
+        let dashBoardVc = self.navigationController?.viewControllers[1] as? CNBTDashBoardViewController
+        
+        self.navigationController?.popToViewController(dashBoardVc!, animated: false)
+        // let  _ = self.navigationController?.popToRootViewController(animated: true)
     }
     
     // MARK: Button Action
@@ -382,7 +417,7 @@ class CNBTQuestionViewController: UIViewController {
             imageTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { [weak self](timer) in
                 self?.startQuestionTimeImages()
             })
-
+            
         }
         sender.isSelected = !sender.isSelected
     }
@@ -399,7 +434,7 @@ class CNBTQuestionViewController: UIViewController {
     private func calculateScore(startTime: TimeInterval, endTime: TimeInterval, subjectID: Int) -> Double {
         
         let difference = endTime - startTime
-
+        
         // If Subject is English
         
         if  subjectID == 6 {
@@ -421,7 +456,7 @@ class CNBTQuestionViewController: UIViewController {
                 return 0
             }
             
-        } else  if subjectID == 7 || subjectID == 8 || subjectID == 9 {
+        } else  if subjectID == 7 || subjectID == 8 || subjectID == 9 || subjectID == 13{
             
             switch difference {
             case 0...30 :
@@ -449,7 +484,7 @@ class CNBTQuestionViewController: UIViewController {
                 correctChoice = correctChoice + index
             }
         }
-
+        
         let endTime = Date().timeIntervalSince1970
         if sender.tag == correctChoice {
             
@@ -458,12 +493,22 @@ class CNBTQuestionViewController: UIViewController {
             self.currentScore = self.currentScore + self.calculateScore(startTime: self.startTime, endTime: endTime, subjectID: selectedmodel.SubjectID!)
             self.updateCorrect(button: sender)
             self.currentStreak = self.currentStreak + 1
-            if self.currentStreak >= Utility.getStreak(){
+            if self.currentStreak >= Utility.getStreak() {
                 Utility.set(streak: self.currentStreak)
             }
             self.rightAnswerCount = self.rightAnswerCount + 1
             UserDefaults.standard.set(self.rightAnswerCount, forKey: "GlobalRightAnswerCount")
+            UIView.animate(withDuration: 0.5, animations: {
+                sender.layer.borderColor = UIColor.yellow.cgColor
+                sender.layer.borderWidth = 3
+            })
             
+            if (currentStreak != 0 && currentStreak%5 == 0) {
+                let titles:[String] = currentStreak%10 == 0 ? ["MASTER", "STREAK", "+\(currentStreak)"] : ["EXCELLENT", "\(currentStreak) STREAK", ""]
+                let titleColors = currentStreak%10 == 0 ? [UIColor.red, UIColor.green, UIColor.red] : [UIColor.red, UIColor.red, UIColor.red]
+                let backGroundColor = currentStreak%10 == 0 ? color12 : color13
+                populatePopUpView(labelTexts: titles, labelColors: titleColors, tag: 1, backgroundColor: backGroundColor)
+            }
         }else{
             self.wrongAnswerCount = self.wrongAnswerCount + 1
             UserDefaults.standard.set(self.wrongAnswerCount, forKey: "GlobalWrongAnswerCount")
@@ -487,7 +532,7 @@ class CNBTQuestionViewController: UIViewController {
             return
         }
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] _ in
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) { [weak self] _ in
             self?.displayNextQuestion()
         }
         
@@ -514,7 +559,7 @@ class CNBTQuestionViewController: UIViewController {
             if let questions = Question.getAttemptedQuestions(subjectID: "\(self.selectedmodel.SubjectID!)"){
                 for question in questions {
                     questionArray.append(["QuestionID" : question.questionID! , "AnswerID" : question.attemptedAnswer!, "UserID" :  UserDefaults.standard.value(forKey: "UserID") ?? "1", "AttemptDate" : question.attemptedDate!.description, "Streak" : "\(self.currentStreak)"])
-        
+                    
                 }
                 
                 let globalRightAnswerCount = UserDefaults.standard.integer(forKey: "GlobalRightAnswerCount")
@@ -572,8 +617,9 @@ class CNBTQuestionViewController: UIViewController {
             viewController.wrongAnswerCount = self.wrongAnswerCount
             viewController.rightAnswerCount = self.rightAnswerCount
             viewController.modalTransitionStyle = .crossDissolve
-            self.present(viewController, animated: true) {
-            }
+            //            self.present(viewController, animated: true) {
+            //            }
+            self.navigationController?.pushViewController(viewController, animated: false)
         }
     }
     

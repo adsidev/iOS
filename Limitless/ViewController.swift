@@ -44,7 +44,6 @@ class ViewController: UIViewController {
         else if passwordText.text?.characters.count == 0{
             appdel.window?.makeToast("Enter Password")
         }
-        
         let count = 3
         let buttons = self.view.subviews.filter { (view) -> Bool in
             return  view.tag >= 100 && view.tag-100 < 3

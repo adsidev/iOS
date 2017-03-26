@@ -27,6 +27,8 @@ extension Question {
     @NSManaged public var attemptedAnswer: String?
     @NSManaged public var answers: NSSet?
     @NSManaged public var attemptedDate: Date?
+    @NSManaged public var finalQuestionContent: String?
+    @NSManaged public var isDraggable: String?
 
 }
 

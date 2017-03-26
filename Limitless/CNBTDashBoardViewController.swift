@@ -141,9 +141,9 @@ extension CNBTDashBoardViewController : UICollectionViewDelegate {
        // self.navigationController?.present(Vc, animated: true, completion: nil)
         
         Vc.modalTransitionStyle = .crossDissolve
-        self.present(Vc, animated: true, completion: nil)
+        //self.present(Vc, animated: true, completion: nil)
        // self.navigationController?.tabBarController?.present(Vc, animated: true, completion: nil)
-        //self.navigationController?.pushViewController(Vc, animated: true)
+        self.navigationController?.pushViewController(Vc, animated: false)
     }
 }
 extension CNBTDashBoardViewController: UICollectionViewDelegateFlowLayout {

@@ -12,8 +12,11 @@
         <attribute name="attemptedDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="content" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="difficulty" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="finalQuestionContent" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="imageUrl" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="isDraggable" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="questionID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="questionImage" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="questionTypeID" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="subjectID" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="subObjectiveID" optional="YES" attributeType="String" syncable="YES"/>
@@ -28,7 +31,7 @@
     </entity>
     <elements>
         <element name="Answer" positionX="-45" positionY="-72" width="128" height="105"/>
-        <element name="Question" positionX="-45" positionY="-117" width="128" height="210"/>
+        <element name="Question" positionX="-45" positionY="-117" width="128" height="255"/>
         <element name="Score" positionX="-36" positionY="-45" width="128" height="120"/>
     </elements>
 </model>
