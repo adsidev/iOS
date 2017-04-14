@@ -16,11 +16,11 @@ class CNBTQuestionViewController: UIViewController {
     lazy var ansList  : [CNBTANSParseModel] = []
     var timerCount: Int = 0
     @IBOutlet weak var viewImageAndQuestion: LMCustomView!
-    @IBOutlet weak var viewTextfieldAndTextview: LMCustomView!
     @IBOutlet weak var viewRandom: UIView!
     @IBOutlet weak var viewLabels: UIView!
+    @IBOutlet weak var textViewDraggable: UITextView?
     
-    @IBOutlet weak var textField: UITextField!
+    @IBOutlet weak var textField: UITextField?
     @IBOutlet weak var textView: UITextView!
     @IBOutlet weak var imageViewQuestion: UIImageView!
     @IBOutlet weak var imageviewAnimation: UIImageView!
@@ -43,11 +43,11 @@ class CNBTQuestionViewController: UIViewController {
     @IBOutlet weak var constraintTextfieldHeight: NSLayoutConstraint!
     @IBOutlet weak var constraintImageWidth: NSLayoutConstraint!
     @IBOutlet weak var constraintImageTop: NSLayoutConstraint!
-    
+    @IBOutlet weak var constraintImageHeight: NSLayoutConstraint!
+
     let color11 = UIColor.colorWithRGB(102, 102, 255, 0.9)
     let color12 = UIColor.colorWithRGB(255, 255, 102, 0.9)
     let color13 = UIColor.colorWithRGB(204, 204, 204, 0.9)
-    
     
     var currentHiddenView: UIView!
     var frameOfRecognizer: CGRect?
@@ -79,9 +79,6 @@ class CNBTQuestionViewController: UIViewController {
         initialSetup()
     }
     func initialSetup() {
-        viewImageAndQuestion.isHidden = false
-        viewTextfieldAndTextview.isHidden = true
-        textView.contentOffset = CGPoint(x: 0, y: 0)
         addShadows()
         loadQuestion()
         self.textFieldLives.text = "\(lives)"
@@ -94,7 +91,6 @@ class CNBTQuestionViewController: UIViewController {
     }
     func addShadows() {
         viewImageAndQuestion.addShadow()
-        viewTextfieldAndTextview.addShadow()
         //viewLabels.addShadow()
     }
     
@@ -104,7 +100,6 @@ class CNBTQuestionViewController: UIViewController {
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
     }
     override func viewWillAppear(_ animated: Bool) {
         NotificationCenter.default.addObserver(self, selector: #selector(appMovedToBackground), name: Notification.Name.UIApplicationWillResignActive, object: nil)
@@ -236,7 +231,6 @@ class CNBTQuestionViewController: UIViewController {
                                 answer["explanation"] = answerJson["Explanation"]!
                                 let answerObj = Answer.getAnswerTemplate(answer)
                                 question.addToAnswers(answerObj!)
-                                self.addQuestionFromModel(questionModel: question)
                                 
                                 guard let appDelegate: AppDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
                                 appDelegate.saveContext()
@@ -308,7 +302,6 @@ class CNBTQuestionViewController: UIViewController {
                 weakSelf.imageTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { [weak self](timer) in
                     self?.startQuestionTimeImages()
                 })
-                
             }else{
                 // load the data from webservice
                 weakSelf.pageNo = weakSelf.pageNo + 1
@@ -318,72 +311,55 @@ class CNBTQuestionViewController: UIViewController {
         }
         
     }
-    func changeQuestionView(questionID: Int, content: String?, image: String?, isDragable: String) {
-        switch questionID {
-        case 1, 2:
-            viewTextfieldAndTextview.isHidden = false
-            viewImageAndQuestion.isHidden = true
-            textView.text = content
-            if questionID == 2{
-                setTextfieldConstraint()
-            }
-        case 3,4:
-            viewTextfieldAndTextview.isHidden = true
-            viewImageAndQuestion.isHidden = false
-            labelQuestion.text = content
-            if questionID == 4 {
-                setImageConstraints()
-            }
-        default:
-            break
-        }
-    }
     func addQuestionFromModel(questionModel: Question) {
-        
-        let questionId: Int = Int(questionModel.questionID!)!
-        switch questionId {
-        case 1, 2:
-            viewTextfieldAndTextview.isHidden = false
-            viewImageAndQuestion.isHidden = true
-            labelQuestionContent.text = questionModel.content
-            if (questionModel.isDraggable != nil) {
-                textView.text = "\(questionModel.finalQuestionContent ?? "")"
-                if Int(questionModel.isDraggable!)! == 1 {
-                    self.addGestureTobutton()
+                let questionId: Int = Int(questionModel.questionTypeID!)!
+                switch questionId {
+                case 2:
+                    viewImageAndQuestion.isHidden = true
+                    textViewDraggable = UITextView(frame: viewImageAndQuestion.frame)
+                    self.view.addSubview(textViewDraggable!)
+                    var isDraggable: Bool = false
+                        if let draggable = questionModel.isDraggable {
+                            if Int(draggable) == 1 {
+                                self.addGestureTobutton()
+                                isDraggable = true
+                            }
+                        }
+                    addTextBoxQuestionContent(text: questionModel.content ?? "", isDraggable: isDraggable)
+                    self.view.bringSubview(toFront: answerButton1)
+                    self.view.bringSubview(toFront: answerButton2)
+                    self.view.bringSubview(toFront: answerButton3)
+
+                case 1,3,4:
+                    viewImageAndQuestion.isHidden = false
+                    labelQuestion.text = questionModel.content
+                    if questionId == 4 {
+                        performImageOnlyState()
+                    } else if questionId == 1 {
+                        performTextOnlyState(text: questionModel.content!)
+                    }
+                default:
+                    break
                 }
-            }
-            
-        case 3,4:
-            viewTextfieldAndTextview.isHidden = true
-            viewImageAndQuestion.isHidden = false
-            labelQuestion.text = questionModel.content
-            if questionId == 4 {
-                setImageConstraints()
-            }
-        default:
-            break
-        }
     }
     
-    func setImageConstraints() {
+    func performImageOnlyState() {
         constraintImageTop.constant = 0
         constraintImageWidth.constant = viewImageAndQuestion.frame.size.height / 1.1
         labelQuestion.text = ""
         self.viewImageAndQuestion.layoutIfNeeded()
     }
-    func setTextfieldConstraint() {
-        constraintTextfieldTop.constant = 0
-        constraintTextfieldHeight.constant = 0
-        self.viewTextfieldAndTextview.layoutIfNeeded()
+    func performTextOnlyState(text: String) {
+        constraintImageHeight.constant = 0
+        labelQuestion.text = text
+        self.viewImageAndQuestion.layoutIfNeeded()
     }
     @IBAction func backBtnClicked(_ sender: Any) {
         //let _ = self.dismiss(animated: true, completion: nil)
         let dashBoardVc = self.navigationController?.viewControllers[1] as? CNBTDashBoardViewController
-        
         self.navigationController?.popToViewController(dashBoardVc!, animated: false)
         // let  _ = self.navigationController?.popToRootViewController(animated: true)
     }
-    
     // MARK: Button Action
     private func updateCorrect(button: UIButton)  {
         button.isHidden = false
@@ -395,7 +371,6 @@ class CNBTQuestionViewController: UIViewController {
         button.layer.cornerRadius = 5.0
         button.layer.borderColor = UIColor.gray.cgColor
         button.layer.borderWidth = 0.2
-        
     }
     
     private func updateIncorrect(button: UIButton)  {
@@ -456,7 +431,7 @@ class CNBTQuestionViewController: UIViewController {
                 return 0
             }
             
-        } else  if subjectID == 7 || subjectID == 8 || subjectID == 9 || subjectID == 13{
+        } else  if subjectID == 7 || subjectID == 8 || subjectID == 9 || subjectID == 13 || subjectID == 14 {
             
             switch difference {
             case 0...30 :
@@ -486,12 +461,14 @@ class CNBTQuestionViewController: UIViewController {
         }
         
         let endTime = Date().timeIntervalSince1970
+        textField?.text = sender.titleLabel?.text
         if sender.tag == correctChoice {
             
             // TODO: Changed Subject ID
             
             self.currentScore = self.currentScore + self.calculateScore(startTime: self.startTime, endTime: endTime, subjectID: selectedmodel.SubjectID!)
             self.updateCorrect(button: sender)
+            textField?.backgroundColor = UIColor.colorWithRGB(1, 138, 118, 1)
             self.currentStreak = self.currentStreak + 1
             if self.currentStreak >= Utility.getStreak() {
                 Utility.set(streak: self.currentStreak)
@@ -504,16 +481,14 @@ class CNBTQuestionViewController: UIViewController {
             })
             
             if (currentStreak != 0 && currentStreak%5 == 0) {
-                let titles:[String] = currentStreak%10 == 0 ? ["MASTER", "STREAK", "+\(currentStreak)"] : ["EXCELLENT", "\(currentStreak) STREAK", ""]
-                let titleColors = currentStreak%10 == 0 ? [UIColor.red, UIColor.green, UIColor.red] : [UIColor.red, UIColor.red, UIColor.red]
-                let backGroundColor = currentStreak%10 == 0 ? color12 : color13
-                populatePopUpView(labelTexts: titles, labelColors: titleColors, tag: 1, backgroundColor: backGroundColor)
+                populatePopUpView(score: "+ \(currentStreak) STREAK", scoreValue: currentStreak)
             }
         }else{
             self.wrongAnswerCount = self.wrongAnswerCount + 1
             UserDefaults.standard.set(self.wrongAnswerCount, forKey: "GlobalWrongAnswerCount")
             self.lives = self.lives - 1
             self.updateIncorrect(button: sender)
+            textField?.backgroundColor = UIColor.red
             if let button = self.view.viewWithTag(correctChoice) as? UIButton{
                 self.updateCorrect(button: button)
             }
@@ -633,9 +608,9 @@ extension UIView {
     
     func addShadow() {
         self.layer.cornerRadius = 2
-        self.layer.shadowColor = UIColor.black.cgColor
-        self.layer.shadowOffset = CGSize(width: 0.0, height: 1.0)
-        self.layer.shadowOpacity = 0.5
+        self.layer.shadowColor = UIColor.lightGray.cgColor
+        self.layer.shadowOffset = CGSize(width: 0, height: 1)
+        self.layer.shadowOpacity = 0.1
         self.layer.shadowRadius = 5.0
         self.layer.masksToBounds =  false
     }
